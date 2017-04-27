@@ -1,6 +1,6 @@
 # npmdoc-forever-monitor
 
-#### api documentation for  [forever-monitor (v1.7.1)](https://github.com/nodejitsu/forever-monitor#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-forever-monitor.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-forever-monitor) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-forever-monitor.svg)](https://travis-ci.org/npmdoc/node-npmdoc-forever-monitor)
+#### basic api documentation for  [forever-monitor (v1.7.1)](https://github.com/nodejitsu/forever-monitor#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-forever-monitor.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-forever-monitor) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-forever-monitor.svg)](https://travis-ci.org/npmdoc/node-npmdoc-forever-monitor)
 
 #### Core forever process monitor
 
@@ -93,7 +93,8 @@
     "scripts": {
         "test": "vows test/**/*-test.js --spec -i"
     },
-    "version": "1.7.1"
+    "version": "1.7.1",
+    "bin": {}
 }
 ```
 
