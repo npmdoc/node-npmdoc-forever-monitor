@@ -119,6 +119,30 @@
 
         <li>
 
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">forever-monitor.</span>common</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">forever-monitor.</span>logger</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">forever-monitor.</span>monitor</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">forever-monitor.</span>watch</span>
+
+        </li>
+
+        <li>
+
             <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">forever-monitor.</span>version</span>
 
         </li>
@@ -424,6 +448,79 @@
 
     </ol></li>
 
+    <li class="apidocModuleLi"><a href="#apidoc.module.forever-monitor.common">module forever-monitor.common</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.forever-monitor.common.checkProcess">
+            function <span class="apidocSignatureSpan">forever-monitor.common.</span>checkProcess
+            <span class="apidocSignatureSpan">(pid)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.forever-monitor.common.kill">
+            function <span class="apidocSignatureSpan">forever-monitor.common.</span>kill
+            <span class="apidocSignatureSpan">(pid, killTree, signal, callback)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.forever-monitor.logger">module forever-monitor.logger</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.forever-monitor.logger.attach">
+            function <span class="apidocSignatureSpan">forever-monitor.logger.</span>attach
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">forever-monitor.logger.</span>name</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.forever-monitor.monitor">module forever-monitor.monitor</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.forever-monitor.monitor.Monitor">
+            function <span class="apidocSignatureSpan">forever-monitor.monitor.</span>Monitor
+            <span class="apidocSignatureSpan">(script, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.forever-monitor.watch">module forever-monitor.watch</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.forever-monitor.watch.attach">
+            function <span class="apidocSignatureSpan">forever-monitor.watch.</span>attach
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">forever-monitor.watch.</span>name</span>
+
+        </li>
+
+    </ol></li>
+
 </ol></div>
 
 <div class="apidocSectionDiv">
@@ -553,7 +650,17 @@
   //
   broadway.App.call(this, { bootstrapper: { bootstrap: bootstrap } });
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+// Starts a script with forever
+//
+exports.start = function (script, options) {
+  if (!options.uid) {
+    options.uid = options.uid || utile.randomString(4).replace(/^\-/, '_');
+  }
+
+  return new exports.<span class="apidocCodeKeywordSpan">Monitor</span>(script, options).start();
+};
+...</pre></li>
     </ul>
 
 
@@ -628,7 +735,23 @@
     return false;
   }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+
+
+
+
+
+/*
+ * check-process-test.js: Tests for forever.<span class="apidocCodeKeywordSpan">checkProcess</span>(pid)
+ *
+ * (C) 2010 Charlie Robbins &amp; the Contributors
+ * MIT LICENCE
+ *
+ */
+
+var assert = require('assert'),
+...</pre></li>
     </ul>
 
 
@@ -664,7 +787,22 @@
     callback();
   }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+  try {
+    //
+    // Trying to kill non-existent process here raises a ESRCH - no such
+    // process exception. Also, signal 0 doesn't do no harm to a process - it
+    // only checks if sending a signal to a given process is possible.
+    //
+    process.<span class="apidocCodeKeywordSpan">kill</span>(pid, 0);
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+};
+...</pre></li>
     </ul>
 
 
@@ -701,6 +839,14 @@ You can spawn non-node processes too. Either set the `command` key in the
 ``` js
 ...</pre></li>
     </ul>
+
+
+
+
+
+
+
+
 
 
 
@@ -840,7 +986,17 @@ You can spawn non-node processes too. Either set the `command` key in the
   //
   broadway.App.call(this, { bootstrapper: { bootstrap: bootstrap } });
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+// Starts a script with forever
+//
+exports.start = function (script, options) {
+  if (!options.uid) {
+    options.uid = options.uid || utile.randomString(4).replace(/^\-/, '_');
+  }
+
+  return new exports.<span class="apidocCodeKeywordSpan">Monitor</span>(script, options).start();
+};
+...</pre></li>
     </ul>
 
 
@@ -967,7 +1123,23 @@ You can spawn non-node processes too. Either set the `command` key in the
 
   return merged;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  }
+  catch (ex) {
+    return false;
+  }
+}
+
+this.spawnWith.cwd = this.spawnWith.cwd || this.cwd;
+this.spawnWith.env = this.<span class="apidocCodeKeywordSpan">_getEnv</span>();
+
+if (process.platform === 'win32') {
+  this.spawnWith.detached = true;
+}
+
+if (this.stdio) {
+  this.spawnWith.stdio = this.stdio;
+...</pre></li>
     </ul>
 
 
@@ -1024,7 +1196,22 @@ You can spawn non-node processes too. Either set the `command` key in the
 
   return this;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+  try {
+    //
+    // Trying to kill non-existent process here raises a ESRCH - no such
+    // process exception. Also, signal 0 doesn't do no harm to a process - it
+    // only checks if sending a signal to a given process is possible.
+    //
+    process.<span class="apidocCodeKeywordSpan">kill</span>(pid, 0);
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+};
+...</pre></li>
     </ul>
 
 
@@ -1044,7 +1231,23 @@ You can spawn non-node processes too. Either set the `command` key in the
     ? this.start(true)
     : this.kill(false);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  assert.isFunction(child.stop);
+},
+"calling the restart() method in less than `minUptime`": {
+  topic: function (child) {
+    var that = this;
+    child.once('start', function () {
+      child.once('restart', that.callback.bind(this, null));
+      child.<span class="apidocCodeKeywordSpan">restart</span>();
+    });
+    child.start();
+  },
+  "should restart the child process": function (_, child, data) {
+    assert.isObject(data);
+    child.kill(true);
+  }
+...</pre></li>
     </ul>
 
 
@@ -1068,7 +1271,18 @@ You can spawn non-node processes too. Either set the `command` key in the
 
   if (child.send) { child.send(msg) }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+
+
+
+
+setInterval(function () {
+  if (process.send) {
+    process.<span class="apidocCodeKeywordSpan">send</span>({ from: 'child' });
+  }
+}, 1000)
+...</pre></li>
     </ul>
 
 
@@ -1180,7 +1394,23 @@ You can spawn non-node processes too. Either set the `command` key in the
     <li>description and source-code<pre class="apidocCodePre">stop = function () {
   return this.kill(true);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  });
+
+  child.on('start', function () {
+    //
+    // Give it time to set up signal handlers
+    //
+    setTimeout(function () {
+      child.<span class="apidocCodeKeywordSpan">stop</span>();
+    }, 1000);
+  });
+
+  child.start();
+},
+"should forcibly kill the processes": function (err, child, spinning) {
+  assert.isNull(err);
+...</pre></li>
     </ul>
 
 
@@ -1195,7 +1425,23 @@ You can spawn non-node processes too. Either set the `command` key in the
     <li>description and source-code<pre class="apidocCodePre">toString = function () {
   return JSON.stringify(this);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    max: 1,
+    silent: true,
+    minUptime: 0,
+    env: this.env
+  });
+
+  child.on('stdout', function (data) {
+    that.stdout = data.<span class="apidocCodeKeywordSpan">toString</span>();
+  });
+
+  child.on('exit', this.callback.bind({}, null));
+  child.start();
+},
+"should pass the environment variables to the child": function (err, child) {
+  assert.equal(child.times, 1);
+...</pre></li>
     </ul>
 
 
@@ -1241,7 +1487,22 @@ You can spawn non-node processes too. Either set the `command` key in the
 
   return spawn(run.command, run.args, this.spawnWith);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+if (this.running &amp;&amp; !restart) {
+  process.nextTick(function () {
+    self.emit('error', new Error('Cannot start process that is already running.'));
+  });
+  return this;
+}
+
+child = this.<span class="apidocCodeKeywordSpan">trySpawn</span>();
+if (!child) {
+  process.nextTick(function () {
+    self.emit('error', new Error('Target script does not exist: ' + self.args[0]));
+  });
+  return this;
+}
+...</pre></li>
     </ul>
 
 
@@ -1462,7 +1723,23 @@ You can spawn non-node processes too. Either set the `command` key in the
     });
   }
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+// #### @options {Object} Configuration for this instance.
+// Creates a new instance of forever with specified `options`.
+//
+var Monitor = exports.Monitor = function (script, options) {
+//
+// Simple bootstrapper for attaching logger
+// and watch plugins by default. Other plugins
+// can be attached through `monitor.<span class="apidocCodeKeywordSpan">use</span>(plugin, options)`.
+//
+function bootstrap(monitor) {
+  plugins.logger.attach.call(monitor, options);
+  if (options.watch) {
+    plugins.watch.attach.call(monitor, options);
+  }
+}
+...</pre></li>
     </ul>
 
 
@@ -1633,7 +1910,24 @@ You can spawn non-node processes too. Either set the `command` key in the
   }
 
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+//
+Monitor.prototype.start = function (restart) {
+var self = this,
+    child;
+
+if (this.running &amp;&amp; !restart) {
+  process.nextTick(function () {
+    self.<span class="apidocCodeKeywordSpan">emit</span>('error', new Error('Cannot start process that is already
+ running.'));
+  });
+  return this;
+}
+
+child = this.trySpawn();
+if (!child) {
+  process.nextTick(function () {
+...</pre></li>
     </ul>
 
 
@@ -1948,7 +2242,23 @@ You can spawn non-node processes too. Either set the `command` key in the
   this.many(event, 1, fn);
   return this;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  // If we have a time before we truly kill forcefully, set up a timer
+  //
+  if (this.killTTL) {
+    timer = setTimeout(function () {
+      common.kill(self.child.pid, self.killTree, self.killSignal || 'SIGKILL');
+    }, this.killTTL);
+
+    child.<span class="apidocCodeKeywordSpan">once</span>('exit', function () {
+      clearTimeout(timer);
+    });
+  }
+}
+
+child.once('exit', function () {
+  self.emit('stop', self.childData);
+...</pre></li>
     </ul>
 
 
@@ -2062,7 +2372,23 @@ You can spawn non-node processes too. Either set the `command` key in the
 
   return this;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  }
+
+  // Re-emit messages from the child process
+  this.child.on('message', onMessage);
+
+  child.on('exit', function (code, signal) {
+var spinning = Date.now() - self.ctime &lt; self.minUptime;
+child.<span class="apidocCodeKeywordSpan">removeListener</span>('message', onMessage);
+self.emit('exit:code', code, signal);
+
+function letChildDie() {
+  self.running = false;
+  self.forceStop = false;
+  self.emit('exit', self, spinning);
+}
+...</pre></li>
     </ul>
 
 
@@ -2080,10 +2406,411 @@ You can spawn non-node processes too. Either set the `command` key in the
   if (!this._conf) this._conf = {};
   this._conf.maxListeners = n;
 }</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+});
+
+monitor.child.stderr.on('data', function onStderr(data) {
+  monitor.emit('stderr', data);
+});
+
+if (!monitor.silent) {
+  process.stdout.<span class="apidocCodeKeywordSpan">setMaxListeners</span>(0);
+  process.stderr.setMaxListeners(0);
+  monitor.child.stdout.pipe(process.stdout, { end: false });
+  monitor.child.stderr.pipe(process.stderr, { end: false });
+}
+
+if (monitor.stdout) {
+  monitor.child.stdout.pipe(monitor.stdout, { end: false });
+...</pre></li>
+    </ul>
+
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.forever-monitor.common" id="apidoc.module.forever-monitor.common">module forever-monitor.common</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.forever-monitor.common.checkProcess" id="apidoc.element.forever-monitor.common.checkProcess">
+        function <span class="apidocSignatureSpan">forever-monitor.common.</span>checkProcess
+        <span class="apidocSignatureSpan">(pid)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">checkProcess = function (pid) {
+  if (!pid) {
+    return false;
+  }
+
+  try {
+    //
+    // Trying to kill non-existent process here raises a ESRCH - no such
+    // process exception. Also, signal 0 doesn't do no harm to a process - it
+    // only checks if sending a signal to a given process is possible.
+    //
+    process.kill(pid, 0);
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+
+
+
+
+
+/*
+ * check-process-test.js: Tests for forever.<span class="apidocCodeKeywordSpan">checkProcess</span>(pid)
+ *
+ * (C) 2010 Charlie Robbins &amp; the Contributors
+ * MIT LICENCE
+ *
+ */
+
+var assert = require('assert'),
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.forever-monitor.common.kill" id="apidoc.element.forever-monitor.common.kill">
+        function <span class="apidocSignatureSpan">forever-monitor.common.</span>kill
+        <span class="apidocSignatureSpan">(pid, killTree, signal, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">kill = function (pid, killTree, signal, callback) {
+  signal   = signal   || 'SIGKILL';
+  callback = callback || function () {};
+
+  if (killTree &amp;&amp; process.platform !== 'win32') {
+    psTree(pid, function (err, children) {
+      [pid].concat(
+        children.map(function (p) {
+          return p.PID;
+        })
+      ).forEach(function (tpid) {
+        try { process.kill(tpid, signal) }
+        catch (ex) { }
+      });
+
+      callback();
+    });
+  }
+  else {
+    try { process.kill(pid, signal) }
+    catch (ex) { }
+    callback();
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+  try {
+    //
+    // Trying to kill non-existent process here raises a ESRCH - no such
+    // process exception. Also, signal 0 doesn't do no harm to a process - it
+    // only checks if sending a signal to a given process is possible.
+    //
+    process.<span class="apidocCodeKeywordSpan">kill</span>(pid, 0);
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+};
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.forever-monitor.logger" id="apidoc.module.forever-monitor.logger">module forever-monitor.logger</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.forever-monitor.logger.attach" id="apidoc.element.forever-monitor.logger.attach">
+        function <span class="apidocSignatureSpan">forever-monitor.logger.</span>attach
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">attach = function (options) {
+  options = options || {};
+  var monitor = this;
+
+  if (options.outFile) {
+    monitor.stdout = options.stdout || fs.createWriteStream(options.outFile, {
+      flags: monitor.append ? 'a+' : 'w+',
+      encoding: 'utf8',
+      mode: 0644
+    });
+  }
+
+  if (options.errFile) {
+    monitor.stderr = options.stderr || fs.createWriteStream(options.errFile, {
+      flags: monitor.append ? 'a+' : 'w+',
+      encoding: 'utf8',
+      mode: 0644
+    });
+  }
+
+  monitor.on('start', startLogs);
+  monitor.on('restart', startLogs);
+  monitor.on('exit', stopLogs);
+
+  function stopLogs() {
+    if (monitor.stdout) {
+      //
+      // Remark: 0.8.x doesnt have an unpipe method
+      //
+      monitor.child.stdout.unpipe &amp;&amp; monitor.child.stdout.unpipe(monitor.stdout);
+      monitor.stdout.destroy();
+      monitor.stdout = null;
+    }
+    //
+    // Remark: 0.8.x doesnt have an unpipe method
+    //
+    if (monitor.stderr) {
+      monitor.child.stderr.unpipe &amp;&amp; monitor.child.stderr.unpipe(monitor.stderr);
+      monitor.stderr.destroy();
+      monitor.stderr = null;
+    }
+  }
+
+  function startLogs(child, childData) {
+    if (monitor.child) {
+      monitor.child.stdout.on('data', function onStdout(data) {
+        monitor.emit('stdout', data);
+      });
+
+      monitor.child.stderr.on('data', function onStderr(data) {
+        monitor.emit('stderr', data);
+      });
+
+      if (!monitor.silent) {
+        process.stdout.setMaxListeners(0);
+        process.stderr.setMaxListeners(0);
+        monitor.child.stdout.pipe(process.stdout, { end: false });
+        monitor.child.stderr.pipe(process.stderr, { end: false });
+      }
+
+      if (monitor.stdout) {
+        monitor.child.stdout.pipe(monitor.stdout, { end: false });
+      }
+
+      if (monitor.stderr) {
+        monitor.child.stderr.pipe(monitor.stderr, { end: false });
+      }
+    }
+  }
+}</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.forever-monitor.monitor" id="apidoc.module.forever-monitor.monitor">module forever-monitor.monitor</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.forever-monitor.monitor.Monitor" id="apidoc.element.forever-monitor.monitor.Monitor">
+        function <span class="apidocSignatureSpan">forever-monitor.monitor.</span>Monitor
+        <span class="apidocSignatureSpan">(script, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">Monitor = function (script, options) {
+  //
+  // Simple bootstrapper for attaching logger
+  // and watch plugins by default. Other plugins
+  // can be attached through `monitor.use(plugin, options)`.
+  //
+  function bootstrap(monitor) {
+    plugins.logger.attach.call(monitor, options);
+    if (options.watch) {
+      plugins.watch.attach.call(monitor, options);
+    }
+  }
+
+  var execPath = process.execPath,
+      self     = this;
+
+  //
+  // Setup basic configuration options
+  //
+  options               = options || {};
+  this.silent           = options.silent || false;
+  this.killTree         = options.killTree !== false;
+  this.uid              = options.uid || utile.randomString(4);
+  this.id               = options.id || false;
+  this.pidFile          = options.pidFile;
+  this.max              = options.max;
+  this.killTTL          = options.killTTL;
+  this.killSignal       = options.killSignal || 'SIGKILL';
+  this.childExists      = false;
+  this.checkFile        = options.checkFile !== false;
+  this.times            = 0;
+  this.warn             = console.error;
+
+  this.logFile          = options.logFile;
+  this.outFile          = options.outFile;
+  this.errFile          = options.errFile;
+  this.append           = options.append;
+  this.usePolling       = options.usePolling;
+  this.pollingInterval  = options.pollingInterval;
+
+  //
+  // Define some safety checks for commands with spaces
+  //
+  this.parser = options.parser || Monitor.parseCommand;
+
+  //
+  // Setup restart timing. These options control how quickly forever restarts
+  // a child process as well as when to kill a "spinning" process
+  //
+  this.minUptime     = typeof options.minUptime !== 'number' ? 0 : options.minUptime;
+  this.spinSleepTime = options.spinSleepTime || null;
+
+  //
+  // Special case Windows separately to decouple any
+  // future changes
+  //
+  if (process.platform === 'win32') {
+    execPath = '"' + execPath + '"';
+  }
+
+  if (options.options) {
+    console.warn('options.options is deprecated. Use options.args instead.');
+  }
+
+  //
+  // Setup the command to spawn and the options to pass
+  // to that command.
+  //
+  this.command   = options.command || execPath;
+  this.args      = options.args || options.options || [];
+  this.spawnWith = options.spawnWith || {};
+  this.sourceDir = options.sourceDir;
+  this.fork      = options.fork || false;
+  this.cwd       = options.cwd || process.cwd();
+  this.hideEnv   = options.hideEnv || [];
+  this._env      = options.env || {};
+  this._hideEnv  = {};
+
+  //
+  // Allow for custom stdio configuration of forked processes
+  //
+  this.stdio = options.stdio || null;
+
+  //
+  // Setup watch configuration options
+  //
+  this.watchIgnoreDotFiles = options.watchIgnoreDotFiles !== false;
+  this.watchIgnorePatterns = options.watchIgnorePatterns || [];
+  this.watchDirectory      = options.watchDirectory || this.sourceDir;
+
+  //
+  // Create a simple mapping of `this.hideEnv` to an easily indexable
+  // object
+  //
+  this.hideEnv.forEach(function (key) {
+    self._hideEnv[key] = true;
+  });
+
+  if (Array.isArray(script)) {
+    this.command = script[0];
+    this.args = script.slice(1);
+  }
+  else {
+    this.args.unshift(script);
+  }
+
+  if (this.sourceDir) {
+    this.args[0] = path.join(this.sourceDir, this.args[0]);
+  }
+
+  //
+  // Bootstrap this instance now that options
+  // have been set
+  //
+  broadway.App.call(this, { bootstrapper: { bootstrap: bootstrap } });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+// Starts a script with forever
+//
+exports.start = function (script, options) {
+  if (!options.uid) {
+    options.uid = options.uid || utile.randomString(4).replace(/^\-/, '_');
+  }
+
+  return new exports.<span class="apidocCodeKeywordSpan">Monitor</span>(script, options).start();
+};
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.forever-monitor.watch" id="apidoc.module.forever-monitor.watch">module forever-monitor.watch</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.forever-monitor.watch.attach" id="apidoc.element.forever-monitor.watch.attach">
+        function <span class="apidocSignatureSpan">forever-monitor.watch.</span>attach
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">attach = function () {
+  var watchDirectory = this.watchDirectory,
+      monitor = this;
+
+  fs.readFile(path.join(this.watchDirectory, '.foreverignore'), 'utf8', function (err, data) {
+    if (err) {
+      return monitor.emit('watch:error', {
+        message: 'Could not read .foreverignore file.',
+        error: err.message
+      });
+    }
+
+    Array.prototype.push.apply(monitor.watchIgnorePatterns, data.split('\n').filter(Boolean));
+  });
+
+  var opts = {
+    usePolling: this.usePolling,
+    interval: this.pollingInterval,
+    ignoreInitial: true,
+    ignored: function(fileName) {
+      return !watchFilter.call(monitor, fileName);
+    }
+  };
+
+  // Or, ignore: function(fileName) { return !watchFilter(fileName) }
+  chokidar
+    .watch(this.watchDirectory, opts)
+    .on('all', function(f, stat) {
+      monitor.emit('watch:restart', { file: f, stat: stat });
+      monitor.restart();
+    });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
 
 
 
